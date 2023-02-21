@@ -1,0 +1,132 @@
+@use 'sass:math';
+@import "null-style.scss";
+//----------------------------------------------_Шрифты----------------------------------------------
+@import "fonts.scss";
+//----------------------------------------------_Переменные-----------------------------------------
+$maxWidth: 1440;
+$maxWidthContainer: 1200;
+//----------------------------------------------_Шаблоны------------------------------------------
+@function prc($pxOne, $pxTwo) {
+	$result: math.div($pxOne, $pxTwo) * 100%;
+	@return $result;
+}
+@function rem($px) {
+	$result: math.div($px, 16) + rem;
+	@return $result;
+}
+@function em($px) {
+	$result: math.div($px, 16) + em;
+	@return $result;
+}
+//----------------------------------------------_Миксины----------------------------------------------
+@mixin adaptiv-value($property, $startSize, $minSize, $type) {
+	$addSize: $startSize - $minSize;
+	@if $type==1 {
+		//Только если меньше контейнера
+		#{$property}: $startSize + px;
+		@media (max-width: #{$maxWidthContainer + px}) {
+			#{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidthContainer - 320}));
+		}	
+	} @else if $type==2 {
+		//Только если больше контейнера
+		#{$property}: $starSize + px;
+		@media (min-width: #{$maxWidthContainer + px}) {
+			#{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320}));
+		}
+	} @else {
+		//Всегда
+		#{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320}));
+	}
+}
+
+.wrapper {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: center;
+	overflow: hidden;
+	font-family: Montserrat;
+}
+._container {
+	width: min(100% - 1rem, 1200px);
+	margin-inline: auto;
+}
+
+//----------------------------------------------Header----------------------------------------------
+.header {
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 50;
+	background-color: #2B72B0;
+	&__body {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 5px 0;
+	}
+	&__logo {
+		& img {
+			max-width: 170px;
+			@media (max-width: 600px) {
+				& {
+					max-width: 130px;
+				}
+			}
+		}
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+	&__links {
+		flex: 1 1 55%;
+		text-align: right;
+		display: flex;
+		align-items: center;
+		justify-content: end;
+		padding: 5px 5px 5px 10px;
+	}
+	&__link {
+		color: #fff;
+		white-space: nowrap;
+		@include adaptiv-value("font-size", 16, 12, 1);
+		&:first-child {
+			@media (max-width: 890px) {
+				& {
+					display: none;
+				}
+			}
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+	&__link_btn {
+		padding: 10px 20px;
+		background: #EE1C1F;
+		border-radius: 5px;
+		margin-left: 20px;
+		transition: background 0.3s ease 0s;
+		&:hover {
+			background: #C70E12;
+		}
+	}
+}
+
+//----------------------------------------------Main----------------------------------------------
+main {
+	font-size: 16px;
+	padding: 20px;
+	& h2 {
+		margin-bottom: 50px;
+	}
+	& h4 {
+		margin-top: 50px;
+		margin-bottom: 30px;
+	}
+	& p {
+		margin-bottom: 15px;
+	}
+}
