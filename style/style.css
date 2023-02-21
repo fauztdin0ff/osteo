@@ -582,7 +582,7 @@ img {
 }
 @media (max-width: 600px) {
 	.content-screen__1 {
-		background: url("../images/screen1/bg.png") right/cover no-repeat;
+		background: url("../images/screen1/bg.png") center/cover no-repeat;
 	}
 }
 .content-screen__body {
